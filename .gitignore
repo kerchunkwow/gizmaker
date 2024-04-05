@@ -1,0 +1,5 @@
+# Anything in the sandbox if it's present
+sandbox/
+
+# Local VSCode settings & config
+.vscode/
