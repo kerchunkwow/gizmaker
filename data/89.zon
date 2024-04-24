@@ -1,0 +1,134 @@
+#89
+The King's Castle~
+8955 60 2
+*
+M 0 8901 1 8917  King Welmar
+E 1 8902 1 17
+E 1 8903 1 6
+E 1 8904 1 0
+G 1 8914 1
+*
+M 0 8903 1 8942   Loads of guards..
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8904 1 8923   Two in the Training Room.
+E 1 8906 100 16    .. both wielding training swords.
+E 1 8915 50 5
+M 0 8905 1 8923
+E 1 8906 100 16
+E 1 8915 50 5
+*
+M 0 8906 1 8935
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8907 1 8928
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8908 1 8923
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8909 1 8908
+E 1 3022 100 16
+E 1 8915 50 5
+* v OK
+M 0 8910 1 8932
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8920 1 8917  
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8921 1 8917
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8911 1 8919
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8928 1 8947      The next four are recent!
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8929 1 8909
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8926 1 8908      Two guards in the Guard Room.
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8927 1 8908      (These guys are sitting)
+E 1 3022 100 16
+E 1 8915 50 5
+*
+M 0 8912 1 8923      Peter
+E 1 8915 50 5
+E 1 8916 1 16
+*
+M 0 8913 1 8923      The Training Master
+E 1 3022 100 16
+*
+M 0 8914 1 8917      The Herald
+*
+M 0 8916 1 8927      The Butler
+G 1 8909 1            .. with his key
+*
+M 0 8917 5 8910      Some Cleaning Women
+M 0 8917 5 8910
+M 0 8917 5 8941
+M 0 8917 5 8941
+M 0 8917 5 8938
+* 
+M 0 8919 1 8952      The Astrologer
+G 1 3052 100          .. a recall scroll
+G 1 3050 100          .. and an identify scroll
+*
+M 0 8922 1 8905      The Chef and some cooks
+G 1 8919 50           .. Lobster(SLURP!)
+G 1 8920 50           .. Some Russian Caviar
+M 0 8923 2 8905
+G 1 8910 1            .. the Cook has the key to the chest.
+M 0 8923 2 8905
+*
+M 0 8924 1 8936      Dick & David + EQ
+E 1 3022 100 16
+E 1 8915 50 5
+G 1 8907 1           And David has the key.
+O 1 3132 2 8937      A huge treasure in The Great Treasury.
+M 0 8925 1 8936
+E 1 3022 100 16
+E 1 8915 50 5
+*
+O 0 3021 10 8923    Some weapons in training room.
+O 0 3023 10 8923
+O 0 3020 10 8923
+O 0 8911 1 8926      And the chest in the servants' quarters.
+O 0 8905 1 8952	     The telescope by the Astrologer.
+*
+D 0 8906 1 1         Closing doors
+D 0 8907 3 1
+D 0 8920 1 1 
+D 0 8921 3 1
+D 0 8921 0 1
+D 0 8926 2 1
+D 0 8922 0 2
+D 0 8927 2 2
+D 0 8923 0 1
+D 0 8928 2 1
+D 0 8936 1 2
+D 0 8937 3 2
+D 0 8938 0 1
+D 0 8943 2 1
+D 0 8938 1 1
+D 0 8939 3 1
+D 0 8949 1 2
+D 0 8950 3 2
+S
+#999
+$~
