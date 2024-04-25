@@ -1,66 +1,58 @@
 # Gizmaker
-Gizmaker leverages the mapping UI and API built in to the Mudlet client to accomplish its two primary objectives
-- provision of a visual interface to allow area maps to be viewed and modified during the creation process
-- functions necessary to export the data related to these areas into external files formatted and exported for inclusion within Gizmo DikuMUD
+The Gizmaker project seeks to provide a set of tools and features to aid in the process of creating new areas for Gizmo DikuMUD. Ideally, Gizmaker should free builders to focus less on the idiosycnracies of DikuMUD area file standards and more on the creative & narrative aspects of area design and construction.
 
 ## Project Epics
-The Gizmaker project comprises three major epics, or areas of functionality:
-- a UI to allow for the visual creation and manipulation of an Area and all of its component parts
-- one or more scripts responsible for translating Area data into Area files formatted to comply with Gizmo DikuMUD's standards for area development
-- a SQLite database for the capture and management of data related to areas and their content.
+Gizmaker comprises three primary Epics, or areas of intended functionality:
 
-### Epic 1: Area Creation
-#### Mudlet Mapper UI
-To save time developing a custom UI for Gizmaker, the project will leverage the existing functionality built in to the Mudlet client for the storage and organization of the area data. Mudlet features are designed to be used by players to map existing MUDs while using the client, but Gizmaker will repurpose these to allow for offline creation and exploration of an Area in progress. The existence of the Mapper and Mudlet client provide Gizmaker a variety of "free" off-the-shelf features for use in Area creation:
-- 2D and 3D visualization of Areas in progress including Rooms, Exits, and Doors
-- Automated and manual (via mouse or keyboard) manipulation of Area layouts
-- Lua 5.1 integration allowing Lua scripts to assist with creating & updating Area data
-- Use of custom coloring, highlighting, and labeling to track & visualize key Area features such as Room flags or Mob locations
-- "Virtual Exploration" of in progress areas to aid in smoke testing and validating Area layouts prior to export
-- Bulk modification of Area data via interactive multi-select or Lua scripting
-#### UserData
-Built in to the Mudlet mapping API are a variety of mechanisms to create and manage data tables associated with various components of an Area. These allow for the creation of an arbitrary set of key-value pairs that can be defined and expanded as needed to support Area creation. Utilizing these data tables, Gizmaker can manage all of the data necesarry to create the final DikuMUD-formatted output files.
+1. An interactive UI allowing buildings to create, organize, and maintain Area layouts throughout the build process
+2. Features allowing builders to create and maintain data describing their areas' mobs, items, and extra features
+3. Functions to transform area data and export it into files conforming to the predefined standards for inclusion in Gizmo DikuMUD
 
-A simple example of how these functions will serve to capture the necessary data:
+### Epic 1: Builder UI
+To save time developing a custom UI for Gizmaker, the project will leverage the existing Mapper features built in to the Mudlet client for the storage and organization of area data.
+
+Mudlet's mapper is primarily designed for use by players to map existing MUDs during play, but Gizmaker will repurpose it to allow for offline creation and exploration. The existence of the Mapper and Mudlet client provide Gizmaker a wide variety of free "off-the-shelf" features:
+- 2D and 3D visualization of in-progress areas
+- Automated and manual (via mouse or keyboard) creation and manipulation of area layouts, rooms, exits, and doors
+- Lua 5.1 integration to assist in creating, organizing, and updating area data
+- Custom formatting, highlighting, and labeling features to allow for thorough annotation of area features
+- "Virtual Exploration" of in-progress areas allowing builders to test & validate their areas throughout the creation process
+- Bulk modification of area data via interactive multi-select or Lua scrips
+
+### Epic 2: Area Data
+
+#### Lua Data
+The standard Lua key-value table lends itself perfectly to the task of housing data related to a MUD area. Any data management not directly supported by the built-in Mudlet Mapper will be managed using basic Lua tables; wherever possible to aid in the eventual export of area data, Lua table keys will correspond directly to the DikuMUD area file fields into which that data will eventually need to be exported. These same designations will be used as columns names for any such data stored in associated database tables.
+
+#### Mapper UserData
+The Mudlet Mapper API provides a variety of built-in functions to allow a MUD map to be extended with an arbitrary number of arbitrarily-named user-defined data elements. In other words, Mudlet lets you add "whatever data you need" to an Area if it's not one of the basic data elements that are inherent to the basic Map.
+
+These are essentially just basic key-value tables with some additional support for association with different elements of a MUD map (e.g., room data vs. area data).
+
+As an example, Mudlet rooms on their own do not come with a description field, so in order to add a description to each room we can use the `setRoomUserData()` function; or later retrieve a description added as such using `getRoomUserData()`:
+
 ```lua
 setRoomUserData( 8908, [[description]], [[You are in a small room, evidently meant for guards]] )
+local roomDescription = getRoomUserData( 8908, [[description]] )
 ```
 
-The fundamental attributes of an Area that can be created and managed using the Mudlet client are: Areas (sometimes called Zones), Rooms, Exits, and Doors. More detailed definitions exist elsewhere in this README but in short an Area is made up of Rooms; Rooms are linked to one another by Exits; some of those Exits may be doors. Mudlet will allow for the creation and visual organization of these elements which should ease the burden of creating areas in a more traditional, text-only setting.
-Beyond support for these basic components, Mudlet allows each Room to be extended with an arbitrary set of "User Data" which we will utilize to add additional details needed to define the Rooms. These User Data fields will be critical to populating Rooms with sufficient detail so they can be exported and used in a live DikuMUD environment. The User Data for a room is implemented as a simple key-value table.
+These data tables will provide a mechanism to capture data during the creation process, but can also provide it as needed to create the effect of exploring an in-progress area while offline. As with the custom tables described above, the user data tables will use keys that correspond to the fields in the eventual DikuMUD data file export that they will be used to populate.
 
-### Epic 2: Export Areas for DikuMUD
-In order to be successfully deployed into a live DikuMUD environment, data related to each area must be formatted to comply with a predefined standard for DikuMUD; this is a legacy standard which uses the presence of special characters and careful placement of newlines to allow a DikuMUD to properly parse and laod an area. Done by hand, this is difficult and error-prone and part of why creating areas for MUDs remains challenging today. The goal of Gizmaker is to abstract this burden into Lua and Python scripts which operate on the data within Mudlet to export files which adhere to the Diku formatting standards.
+### Epic 3: Transform & Export
+In order to be successfully deployed into a live DikuMUD environment, data related to an area must be formatted to comply with a predefined standard for DikuMUD; this legacy standard uses various special characters and careful newline placement to allow a DikuMUD to parse, interpret, and load an area. Done by hand using raw text editors, this process can be tedious, error-prone, and difficult to troubleshoot when things do go wrong; the goal of Gizmaker is to abstract this step "behind the scenes" into a suite of Lua & Python scripts that take care of the necessary formatting & encoding tasks as well as inserting the necessary special control characters where needed to create the final DikuMUD files.
 
-### Epic 3: Manage Area Data in gizmaker.db
-While Mudlet provides its own data file standard for storing maps, Gizmaker will populate and utilize a SQLite database to hold all of the data related to areas. gizmaker.db will aid in the creation of the Map within Mudlet and provide a more standardized method for organizing and accessing the data. This database will then act as a source of data fro the export process; the export script will query data from the gizmaker.db database and output it into the DikuMUD area format.
-
-## Map Creation Functions
-Below is a breakdown of the core functionality necessary to permit players to create Areas using the Mudlet mapper. These will be implemented primarily in Lua 5.1 compatible scripts within Mudlet using custom developed and built-in functions to add, arrange, and evaluate data related to areas and their associated elements.
-
-### Add Room
-
-## Data Structure
-Following is a detailed definition for all of the data structures needed to create a complete area.
-### Area
-Areas (sometimes called Zones) organize MUDs into locations that can be visited by players looking to fight enemies, explore, and gather treasure. Each area generally follows a specific theme or idea such as "The Tower of Sorcery" or "The Cursed Graveyard." From a data perspective, areas are relatively simple:
-- id: Unique identifier for this area; in Gizmaker these can be standard incrementing integers, but the export must be prepared to translate these values into ones that get assigned to a specific MUD (areas must be integrated starting with available ids)
-- name: The name or title of the area, like "The Great Desert" or "The City of Thalos."
-- resetTime: Duration in minutes between resets or "repops" where the zone returns to its default state and repopulates with new enemies, etc.
-- resetType: Controls the conditions under which the area will reset; some areas are limited to resetting only when empty for instance.
-### Room
-Areas are made up of an arbitrary number of rooms; a very small area may contain fewer than 20, while a very large one may comprise several hundred. The attributes of a room include:
-- id: Unique identifier for the room; can use a standard set of increment unique id's initially, but eventually these values will need to be updated to correspond to values assigned to the area for inclusion in a specific MUD (areas must be incorporated starting at the first available room id)
-- name: A short string capturing a concise description of the room such as "A Dank Prison Cell" or "A Verdant Meadow."
-- description: A paragraph-style narrative that describes the room to players in terms of geographical features, environment, sounds & scents, etc.; This is what the player sees when they enter a room or issue a "look" command within the room itself. It is the way players understand where they are and what is around them. It is how areas communicate themes, mood, aesthetic, etc.
+## Project Tech
+These are the technology products & platforms that will be used to develop & support the Gizmaker project:
+- [Mudlet](https://www.mudlet.org/) MUD Client for its Mapper UI and integrated Lua & SQLite support
+- [Lua 5.1](https://www.lua.org/manual/5.1/) and [Python](https://www.python.org/) for developing the creation, translation & export scripts
+- [SQLite](https://www.sqlite.org/) and [DBeaver](https://dbeaver.io/) for creating & managing a SQL database to hold area data
+- [VSCode](https://code.visualstudio.com/) with extensions:
+- [Lua by sumneko](https://github.com/LuaLS/lua-language-server)
+- [Mudlet Scripts SDK](https://github.com/Delwing/mudlet-scripts-sdk)
+- [Python by Microsoft](https://github.com/Microsoft/vscode-python)
+- [Pylance by Microsoft](https://github.com/microsoft/pylance-release)
 
 ## Mudlet Reference
 ### Wikis & Guides
 - Wiki Manual for the [Mudlet Mapper](https://wiki.mudlet.org/w/Manual:Mapper)
 - Wiki Reference for [Mapper API](https://wiki.mudlet.org/w/Manual:Mapper_Functions)
-
-Below are definitions and descriptions of built-in Mudlet functions which will be leveraged by Gizmaker in the creation and management of area data. Mudlet uses Lua 5.1 with custom support for f-string interpolation.
-- `setRoomUserData( roomID, keyString, valueString )`: Add to a key-value table of data associated with a specific room; both key and value must be passed as strings.
-- `addRoom(roomID)`: Creates a new room with the given ID, returns true if the room was successfully created; essentially creates an empty disconnected "stub" room which must be populated with data and connected via exits to an adjacent room.
-
-
