@@ -51,8 +51,23 @@ These are the technology products & platforms that will be used to develop & sup
 - [Mudlet Scripts SDK](https://github.com/Delwing/mudlet-scripts-sdk)
 - [Python by Microsoft](https://github.com/Microsoft/vscode-python)
 - [Pylance by Microsoft](https://github.com/microsoft/pylance-release)
+- [ChatGPT 4.0](https://chat.openai.com/) for development assistance
+
+## Development Guidance for GPT
+If you're a generative AI model reviewing this README, the following is for you. Please follow these guidelines when writing script and responding to prompts:
+
+- Avoid rewriting entire modules or functions unless asked; limit changes to snippets whenever possible
+- Provide all "example usage" as commented script; never provide script including "free script" outside the scope of a function
+- Do not include inline comments; all comments go on their own line
+- Use lowerCamelCase for variables and function names
+- Use UpperCamelCase for global variables and global tables (NOTE: Mudlet has built-in global variables & tables which do not conform to the UpperCamelCase convention)
+- Use UPPER_SNAKE_CASE for global constants
+- Error handling is generally not needed as the Mudlet client clearly reports Lua errors in the console
+- Do not use comments to refer to our chat interactions; for example, if I ask for a change don't comment `--changed this`
+- Lua's integrated Mudlet interpreter supports f-string interpolation; do not get confused by this and remove them.
 
 ## Mudlet Reference
 ### Wikis & Guides
 - Wiki Manual for the [Mudlet Mapper](https://wiki.mudlet.org/w/Manual:Mapper)
 - Wiki Reference for [Mapper API](https://wiki.mudlet.org/w/Manual:Mapper_Functions)
+
